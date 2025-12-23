@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import ora from "ora";
 import { prioritizeIssuesWithAI } from "./lib/ai.js";
 import {
 	getGitHubToken,
@@ -68,6 +69,8 @@ program
 		"Fetch open issues from configured repos and prioritize them using AI",
 	)
 	.action(async () => {
+		const fetchSpinner = ora("Fetching open issues...");
+
 		try {
 			const reposString = getRepos();
 			if (!reposString) {
@@ -79,19 +82,33 @@ program
 
 			const repos = reposString.split(",").map((r) => r.trim());
 			let allIssues = [];
+
+			fetchSpinner.start();
 			for (const repo of repos) {
+				fetchSpinner.text = `Fetching open issues for ${repo}`;
 				const issues = await fetchOpenRepoIssues(repo);
 				allIssues = allIssues.concat(issues);
 			}
+			fetchSpinner.succeed("Fetched open issues.");
 
 			if (allIssues.length === 0) {
 				console.log("No open issues found in the configured repositories.");
 				return;
 			}
 
-			const prioritizedOutput = await prioritizeIssuesWithAI(allIssues);
-			console.log("Prioritized Issues:\n", prioritizedOutput);
+			const aiSpinner = ora("Prioritizing issues with AI...").start();
+			try {
+				const prioritizedOutput = await prioritizeIssuesWithAI(allIssues);
+				aiSpinner.succeed("Prioritization complete.");
+				console.log("Prioritized Issues:\n", prioritizedOutput);
+			} catch (error) {
+				aiSpinner.fail("Failed to prioritize issues with AI.");
+				throw error;
+			}
 		} catch (error) {
+			if (fetchSpinner.isSpinning) {
+				fetchSpinner.fail("Failed to fetch open issues.");
+			}
 			console.error("Error during prioritization:", error);
 		}
 	});
