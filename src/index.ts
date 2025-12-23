@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 import { Command } from "commander";
+import { prioritizeIssuesWithAI } from "./lib/ai.js";
 import {
 	getGitHubToken,
 	getRepos,
 	setGitHubToken,
 	setRepos,
 } from "./lib/config.js";
+import { fetchOpenRepoIssues } from "./lib/github.js";
 
 const program = new Command();
 
@@ -57,6 +59,40 @@ program
 			console.log(
 				"No repos set. Use set-repos with format: username/repo,username/repo2",
 			);
+		}
+	});
+
+program
+	.command("prioritize")
+	.description(
+		"Fetch open issues from configured repos and prioritize them using AI",
+	)
+	.action(async () => {
+		try {
+			const reposString = getRepos();
+			if (!reposString) {
+				console.log(
+					"No repos set. Use set-repos with format: username/repo,username/repo2",
+				);
+				return;
+			}
+
+			const repos = reposString.split(",").map((r) => r.trim());
+			let allIssues = [];
+			for (const repo of repos) {
+				const issues = await fetchOpenRepoIssues(repo);
+				allIssues = allIssues.concat(issues);
+			}
+
+			if (allIssues.length === 0) {
+				console.log("No open issues found in the configured repositories.");
+				return;
+			}
+
+			const prioritizedOutput = await prioritizeIssuesWithAI(allIssues);
+			console.log("Prioritized Issues:\n", prioritizedOutput);
+		} catch (error) {
+			console.error("Error during prioritization:", error);
 		}
 	});
 

@@ -15,9 +15,12 @@
 		"what-now": "dist/index.js"
 	},
 	"dependencies": {
+		"@ai-sdk/amazon-bedrock": "^4.0.2",
+		"ai": "^6.0.0",
 		"commander": "^11.0.0",
 		"conf": "^15.0.2",
-		"module-alias": "^2.2.2"
+		"module-alias": "^2.2.2",
+		"octokit": "^5.0.5"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.3.10",
