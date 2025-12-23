@@ -1,12 +1,6 @@
 pre-commit:
-  parallel: true
   commands:
-    biome-format:
-      run: npx biome format "src/**/*.{ts,tsx,js,jsx,json,md}" --write
+    check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
+      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
       stage_fixed: true
-
-pre-push:
-  parallel: false
-  commands:
-    biome-check:
-      run: npx biome check

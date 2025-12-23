@@ -1,29 +1,27 @@
 {
-  "name": "what-now",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "clean": "rm -rf dist",
-    "start": "node -r module-alias/register dist/index.js",
-    "format": "biome format \"src/**/*.{ts,tsx,js,jsx,json,md}\" --write",
-    "lint": "biome check"
-  },
-  "description": "A toolset designed to help developers decide what to work on next",
-  "bin": {
-    "what-now": "bin/what-now"
-  },
-  "dependencies": {
-    "commander": "^11.0.0",
-    "module-alias": "^2.2.2"
-  },
-  "devDependencies": {
-    "@types/node": "^20.19.27",
-    "biome": "^0.3.3",
-    "lefthook": "^2.0.12",
-    "typescript": "^5.3.0"
-  },
-  "_moduleAliases": {
-    "bar": "dist/bar.js"
-  }
+	"name": "what-now",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "tsc -p tsconfig.json",
+		"clean": "rm -rf dist",
+		"start": "node --enable-source-maps -r module-alias/register dist/index.js",
+		"format": "biome format --write",
+		"lint": "biome check"
+	},
+	"description": "A toolset designed to help developers decide what to work on next",
+	"bin": {
+		"what-now": "bin/what-now"
+	},
+	"dependencies": {
+		"commander": "^11.0.0",
+		"module-alias": "^2.2.2"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "2.3.10",
+		"@types/node": "^20.19.27",
+		"lefthook": "^2.0.12",
+		"typescript": "^5.3.0"
+	}
 }
