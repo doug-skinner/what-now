@@ -40,6 +40,15 @@ Show configured repos and parsed list:
 what-now get-repos
 ```
 
+## Output styling
+
+Console messages are colorized with Chalk to make statuses easy to scan:
+
+- Success confirmations appear in green.
+- Informational details appear in cyan.
+- Warnings appear in yellow.
+- Errors appear in red.
+
 Examples of valid repo strings:
 
 - dougskinner/what-now

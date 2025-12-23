@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import chalk from "chalk";
 import { Command } from "commander";
 import ora from "ora";
 import { prioritizeIssuesWithAI } from "./lib/ai.js";
@@ -12,6 +13,11 @@ import { fetchOpenRepoIssues } from "./lib/github.js";
 
 const program = new Command();
 
+const success = chalk.green;
+const info = chalk.cyan;
+const warn = chalk.yellow;
+const errorText = chalk.red;
+
 program
 	.name("what-now")
 	.description("A CLI tool to help you decide what to do next.")
@@ -22,7 +28,7 @@ program
 	.description("Set the GitHub token for authentication")
 	.action((token) => {
 		setGitHubToken(token);
-		console.log("GitHub token has been set.");
+		console.log(success("GitHub token has been set."));
 	});
 
 program
@@ -31,10 +37,10 @@ program
 	.action(() => {
 		const token = getGitHubToken();
 		if (token) {
-			console.log("Current GitHub token:", token);
+			console.log(`${info("Current GitHub token:")} ${chalk.gray(token)}`);
 		} else {
 			console.log(
-				"No GitHub token is set. Set one using the set-token command.",
+				warn("No GitHub token is set. Set one using the set-token command."),
 			);
 		}
 	});
@@ -46,7 +52,7 @@ program
 	)
 	.action((repos) => {
 		setRepos(repos);
-		console.log("Repos have been set.");
+		console.log(success("Repos have been set."));
 	});
 
 program
@@ -55,10 +61,12 @@ program
 	.action(() => {
 		const repos = getRepos();
 		if (repos) {
-			console.log("Current repos:", repos);
+			console.log(`${info("Current repos:")} ${chalk.gray(repos)}`);
 		} else {
 			console.log(
-				"No repos set. Use set-repos with format: username/repo,username/repo2",
+				warn(
+					"No repos set. Use set-repos with format: username/repo,username/repo2",
+				),
 			);
 		}
 	});
@@ -75,7 +83,9 @@ program
 			const reposString = getRepos();
 			if (!reposString) {
 				console.log(
-					"No repos set. Use set-repos with format: username/repo,username/repo2",
+					warn(
+						"No repos set. Use set-repos with format: username/repo,username/repo2",
+					),
 				);
 				return;
 			}
@@ -92,7 +102,9 @@ program
 			fetchSpinner.succeed("Fetched open issues.");
 
 			if (allIssues.length === 0) {
-				console.log("No open issues found in the configured repositories.");
+				console.log(
+					warn("No open issues found in the configured repositories."),
+				);
 				return;
 			}
 
@@ -100,7 +112,9 @@ program
 			try {
 				const prioritizedOutput = await prioritizeIssuesWithAI(allIssues);
 				aiSpinner.succeed("Prioritization complete.");
-				console.log("Prioritized Issues:\n", prioritizedOutput);
+				console.log(
+					`${info("Prioritized Issues:")}\n${chalk.white(prioritizedOutput)}`,
+				);
 			} catch (error) {
 				aiSpinner.fail("Failed to prioritize issues with AI.");
 				throw error;
@@ -109,7 +123,7 @@ program
 			if (fetchSpinner.isSpinning) {
 				fetchSpinner.fail("Failed to fetch open issues.");
 			}
-			console.error("Error during prioritization:", error);
+			console.error(errorText("Error during prioritization:"), error);
 		}
 	});
 
