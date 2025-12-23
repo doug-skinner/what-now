@@ -9,13 +9,19 @@
     "format": "biome format \"src/**/*.{ts,tsx,js,jsx,json,md}\" --write",
     "lint": "biome check"
   },
+  "description": "A toolset designed to help developers decide what to work on next",
+  "bin": {
+    "what-now": "bin/what-now"
+  },
   "dependencies": {
+    "commander": "^11.0.0",
     "module-alias": "^2.2.2"
   },
   "devDependencies": {
-    "typescript": "^5.3.0",
+    "@types/node": "^20.19.27",
     "biome": "^0.3.3",
-    "lefthook": "^2.0.12"
+    "lefthook": "^2.0.12",
+    "typescript": "^5.3.0"
   },
   "_moduleAliases": {
     "bar": "dist/bar.js"
