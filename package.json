@@ -1,0 +1,19 @@
+{
+  "name": "what-now",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "start": "node -r module-alias/register dist/index.js"
+  },
+  "dependencies": {
+    "module-alias": "^2.2.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0"
+  },
+  "_moduleAliases": {
+    "bar": "dist/bar.js"
+  }
+}
