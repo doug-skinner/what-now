@@ -1,15 +1,18 @@
 {
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "format": {
-    "indent_style": "space",
     "indent_size": 2,
-    "line_width": 100,
+    "indent_style": "space",
     "insert_final_newline": true,
+    "line_width": 100,
     "tabs": false
   },
   "lint": {
     "rules": {
       "recommended": true
     }
-  },
-  "exclude": ["node_modules", "dist"]
+  }
 }

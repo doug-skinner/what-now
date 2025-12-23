@@ -3,11 +3,10 @@ pre-commit:
   commands:
     biome-format:
       run: npx biome format "src/**/*.{ts,tsx,js,jsx,json,md}" --write
-      include: "src/**/*"
+      stage_fixed: true
 
 pre-push:
   parallel: false
   commands:
     biome-check:
       run: npx biome check
-      include: "src/**/*"
