@@ -12,10 +12,11 @@
 	},
 	"description": "A toolset designed to help developers decide what to work on next",
 	"bin": {
-		"what-now": "bin/what-now"
+		"what-now": "dist/index.js"
 	},
 	"dependencies": {
 		"commander": "^11.0.0",
+		"conf": "^15.0.2",
 		"module-alias": "^2.2.2"
 	},
 	"devDependencies": {
