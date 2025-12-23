@@ -1,0 +1,15 @@
+{
+  "format": {
+    "indent_style": "space",
+    "indent_size": 2,
+    "line_width": 100,
+    "insert_final_newline": true,
+    "tabs": false
+  },
+  "lint": {
+    "rules": {
+      "recommended": true
+    }
+  },
+  "exclude": ["node_modules", "dist"]
+}

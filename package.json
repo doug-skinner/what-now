@@ -5,13 +5,17 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "clean": "rm -rf dist",
-    "start": "node -r module-alias/register dist/index.js"
+    "start": "node -r module-alias/register dist/index.js",
+    "format": "biome format \"src/**/*.{ts,tsx,js,jsx,json,md}\" --write",
+    "lint": "biome check"
   },
   "dependencies": {
     "module-alias": "^2.2.2"
   },
   "devDependencies": {
-    "typescript": "^5.3.0"
+    "typescript": "^5.3.0",
+    "biome": "^0.3.3",
+    "lefthook": "^2.0.12"
   },
   "_moduleAliases": {
     "bar": "dist/bar.js"

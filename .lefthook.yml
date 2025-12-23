@@ -1,0 +1,13 @@
+pre-commit:
+  parallel: true
+  commands:
+    biome-format:
+      run: npx biome format "src/**/*.{ts,tsx,js,jsx,json,md}" --write
+      include: "src/**/*"
+
+pre-push:
+  parallel: false
+  commands:
+    biome-check:
+      run: npx biome check
+      include: "src/**/*"
